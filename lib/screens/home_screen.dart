@@ -34,8 +34,8 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.only(right: 20.0),
               child: IconButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (c) => const SearchScreen()));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (c) => SearchScreen()));
                   },
                   icon: const Icon(
                     Icons.search,

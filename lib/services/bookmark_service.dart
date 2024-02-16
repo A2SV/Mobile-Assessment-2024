@@ -26,10 +26,12 @@ class BookmarkService {
 
   Future<void> toggleBookmark(NewModel newModel) async {
     List<NewModel> bookmarks = await getbookmarks();
-    if (await inBookmarks(newModel)) {
-      //write your code here
+    bool isInBookmarks = await inBookmarks(newModel);
+
+    if (isInBookmarks) {
+      bookmarks.removeWhere((element) => element.url == newModel.url);
     } else {
-      //write your code here
+      bookmarks.add(newModel);
     }
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();

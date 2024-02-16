@@ -18,7 +18,7 @@ class APIService {
         "q": q,
         "page": page,
       });
-     
+
       if (response.statusCode == 200) {
         List<NewModel> news =
             response.data['articles'].map<NewModel>((article) {
@@ -39,5 +39,35 @@ class APIService {
       return NewModel.fromJson(article);
     }).toList();
     return news;
+  }
+
+  Future<List<NewModel>> searchNews(String query,
+      {Duration? duration, int page = 1}) async {
+    try {
+      Map<String, dynamic> queryParams = {
+        "q": query,
+        "page": page,
+      };
+
+      if (duration != null) {
+        final fromDate = DateTime.now().subtract(duration);
+        final fromDateString = fromDate.toIso8601String().split('T')[0];
+        queryParams['from'] = fromDateString;
+      }
+
+      Response response =
+          await dio.get("/everything", queryParameters: queryParams);
+
+      if (response.statusCode == 200) {
+        List<NewModel> news = response.data['articles']
+            .map<NewModel>((article) => NewModel.fromJson(article))
+            .toList();
+        return news;
+      } else {
+        throw Exception();
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }
